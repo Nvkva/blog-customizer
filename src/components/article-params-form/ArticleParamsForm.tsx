@@ -4,9 +4,18 @@ import { Button } from 'components/button';
 import styles from './ArticleParamsForm.module.scss';
 import { useRef, useState } from 'react';
 import clsx from 'clsx';
-import { ArticleStateType, fontFamilyOptions, fontSizeOptions } from 'src/constants/articleProps';
+import {
+	ArticleStateType,
+	backgroundColors,
+	contentWidthArr,
+	fontColors,
+	fontFamilyOptions,
+	fontSizeOptions,
+} from 'src/constants/articleProps';
 import { Select } from '../select';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
+import { RadioGroup } from '../radio-group';
+import { Separator } from '../separator';
 
 type ArticleParamsFormProps = {
 	articleSettings: ArticleStateType;
@@ -18,7 +27,8 @@ export const ArticleParamsForm = ({
 	setCurrentArticle,
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedArticleSettings, setSelectedArticleSettings] = useState(articleSettings);
+	const [selectedArticleSettings, setSelectedArticleSettings] =
+		useState(articleSettings);
 	const rootRef = useRef<HTMLDivElement>(null);
 
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,6 +60,53 @@ export const ArticleParamsForm = ({
 								fontFamilyOption: data,
 							})
 						}
+						title='шрифт'
+					/>
+					<RadioGroup
+						selected={selectedArticleSettings.fontSizeOption}
+						name='radio'
+						onChange={(data) =>
+							setSelectedArticleSettings({
+								...selectedArticleSettings,
+								fontSizeOption: data,
+							})
+						}
+						options={fontSizeOptions}
+						title='размер шрифта'
+					/>
+					<Select
+						options={fontColors}
+						selected={selectedArticleSettings.fontColor}
+						onChange={(data) =>
+							setSelectedArticleSettings({
+								...selectedArticleSettings,
+								fontColor: data,
+							})
+						}
+						title='цвет шрифта'
+					/>
+					<Separator />
+					<Select
+						options={backgroundColors}
+						selected={selectedArticleSettings.backgroundColor}
+						onChange={(data) =>
+							setSelectedArticleSettings({
+								...selectedArticleSettings,
+								backgroundColor: data,
+							})
+						}
+						title='цвет фона'
+					/>
+					<Select
+						options={contentWidthArr}
+						selected={selectedArticleSettings.contentWidth}
+						onChange={(data) =>
+							setSelectedArticleSettings({
+								...selectedArticleSettings,
+								contentWidth: data,
+							})
+						}
+						title='ширина контента'
 					/>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='reset' />
