@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
-import { defaultArticleState as defaultArticleSettingsState } from './constants/articleProps';
+import { defaultArticleState } from './constants/articleProps';
 
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
@@ -14,7 +14,7 @@ const root = createRoot(domNode);
 
 const App = () => {
 	const [currentArticleSettingsState, setCurrentArticleSettingsState] =
-		useState(defaultArticleSettingsState);
+		useState(defaultArticleState);
 	return (
 		<div
 			className={clsx(styles.main)}
@@ -28,8 +28,8 @@ const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				articleSettings={currentArticleSettingsState}
-				setCurrentArticle={setCurrentArticleSettingsState}
+				initialArticleSettingsValue={currentArticleSettingsState}
+				setCurrentArticleSettings={setCurrentArticleSettingsState}
 			/>
 			<Article />
 		</div>

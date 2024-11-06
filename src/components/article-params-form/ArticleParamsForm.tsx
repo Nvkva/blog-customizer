@@ -8,6 +8,7 @@ import {
 	ArticleStateType,
 	backgroundColors,
 	contentWidthArr,
+	defaultArticleState,
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -18,23 +19,34 @@ import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
 
 type ArticleParamsFormProps = {
-	articleSettings: ArticleStateType;
-	setCurrentArticle: (article: ArticleStateType) => void;
+	initialArticleSettingsValue: ArticleStateType;
+	setCurrentArticleSettings: (article: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = ({
-	articleSettings,
-	setCurrentArticle,
+	initialArticleSettingsValue,
+	setCurrentArticleSettings,
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedArticleSettings, setSelectedArticleSettings] =
-		useState(articleSettings);
+	const [selectedArticleSettings, setSelectedArticleSettings] = useState(
+		initialArticleSettingsValue
+	);
 	const rootRef = useRef<HTMLDivElement>(null);
 
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setCurrentArticle({
+		setCurrentArticleSettings({
 			...selectedArticleSettings,
+		});
+	};
+
+	const handleFormReset = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setCurrentArticleSettings({
+			...defaultArticleState,
+		});
+		setSelectedArticleSettings({
+			...defaultArticleState,
 		});
 	};
 
@@ -50,7 +62,10 @@ export const ArticleParamsForm = ({
 			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 			<aside
 				className={clsx(styles.container, isOpen && styles.container_open)}>
-				<form className={styles.form} onSubmit={handleFormSubmit}>
+				<form
+					className={styles.form}
+					onSubmit={handleFormSubmit}
+					onReset={handleFormReset}>
 					<Select
 						options={fontFamilyOptions}
 						selected={selectedArticleSettings.fontFamilyOption}
