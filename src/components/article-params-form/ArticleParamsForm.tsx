@@ -19,30 +19,28 @@ import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
 
 type ArticleParamsFormProps = {
-	initialArticleSettingsValue: ArticleStateType;
-	setCurrentArticleSettings: (article: ArticleStateType) => void;
+	onParamsChange: (params: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = ({
-	initialArticleSettingsValue,
-	setCurrentArticleSettings,
+	onParamsChange
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedArticleSettings, setSelectedArticleSettings] = useState(
-		initialArticleSettingsValue
+		defaultArticleState
 	);
 	const rootRef = useRef<HTMLDivElement>(null);
 
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setCurrentArticleSettings({
+		onParamsChange({
 			...selectedArticleSettings,
 		});
 	};
 
 	const handleFormReset = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setCurrentArticleSettings({
+		onParamsChange({
 			...defaultArticleState,
 		});
 		setSelectedArticleSettings({
